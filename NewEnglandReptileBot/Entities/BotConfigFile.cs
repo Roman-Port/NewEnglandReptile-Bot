@@ -13,6 +13,7 @@ namespace NewEnglandReptileBot.Entities
         public ulong notification_channel; //Channel to send social links
         public BotConfigFile_ApiLoginUsernamePass instagram_auth;
         public BotConfigFile_ApiLoginOAUTH twitter_auth;
+        public string youtube_auth;
     }
 
     public class BotConfigFile_SocialAccount
@@ -37,6 +38,7 @@ namespace NewEnglandReptileBot.Entities
     public enum BotConfigFile_SocialAccountType
     {
         Twitter = 0,
-        Instagram = 1
+        Instagram = 1,
+        YouTube = 2
     }
 }

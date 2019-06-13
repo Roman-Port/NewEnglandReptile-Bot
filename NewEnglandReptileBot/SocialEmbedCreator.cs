@@ -14,12 +14,21 @@ namespace NewEnglandReptileBot
         {
             DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
             builder.Title = $"Instagram Post by {user.screen_name}";
-            builder.Description = m.Caption.Text;
+            if(m.Caption != null)
+                builder.Description = m.Caption.Text;
             builder.Url = $"https://www.instagram.com/p/{m.Code}/";
 
             builder.Color = DiscordColor.Grayple;
 
-            builder.ImageUrl = m.Images[0].Uri;
+            if(m.MediaType == InstaMediaType.Carousel)
+            {
+                //Use carousel
+                builder.ImageUrl = m.Carousel[0].Images[0].Uri;
+            } else
+            {
+                //Use legacy
+                builder.ImageUrl = m.Images[0].Uri;
+            }
 
             builder.Author = new DiscordEmbedBuilder.EmbedAuthor
             {
@@ -30,9 +39,11 @@ namespace NewEnglandReptileBot
 
             builder.Footer = new DiscordEmbedBuilder.EmbedFooter
             {
-                Text = "Bot by RomanPort#0001",
-                IconUrl = ""
+                Text = Program.FOOTER_TEXT,
+                IconUrl = "https://romanport.com/static/nerd_bot/twitter.png"
             };
+
+            builder.Timestamp = m.TakenAt;
 
             return builder.Build();
         }
@@ -90,9 +101,32 @@ namespace NewEnglandReptileBot
 
             builder.Footer = new DiscordEmbedBuilder.EmbedFooter
             {
-                Text = "Bot by RomanPort#0001"
+                Text = Program.FOOTER_TEXT,
+                IconUrl = "https://romanport.com/static/nerd_bot/twitter.png"
             };
 
+            return builder.Build();
+        }
+
+        public static DiscordEmbed CreateYouTubeEmbed(YouTubePost post, BotConfigFile_SocialAccount account)
+        {
+            //Build
+            DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
+            builder.Title = "New Video - " + post.snippet.title;
+            builder.Url = $"https://youtube.com/watch?v={post.id.videoId}";
+            builder.Color = DiscordColor.Red;
+            builder.Description = post.snippet.description;
+            builder.ImageUrl = post.snippet.thumbnails.high.url;
+            builder.Author = new DiscordEmbedBuilder.EmbedAuthor
+            {
+                Name = account.screen_name
+            };
+            builder.Footer = new DiscordEmbedBuilder.EmbedFooter
+            {
+                Text = Program.FOOTER_TEXT,
+                IconUrl = "https://romanport.com/static/nerd_bot/twitter.png?v=2"
+            };
+            builder.Timestamp = post.snippet.publishedAt;
             return builder.Build();
         }
     }

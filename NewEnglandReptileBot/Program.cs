@@ -14,38 +14,25 @@ namespace NewEnglandReptileBot
     {
         public static BotConfigFile config;
         public static DiscordClient discord;
+        public static SocialStreamPointSaved saved_stream;
+
+        public const string FOOTER_TEXT = "Bot by RomanPort#0001";
 
         static void Main(string[] args)
         {
             Console.WriteLine("Loading the configuration file...");
             config = JsonConvert.DeserializeObject<BotConfigFile>(File.ReadAllText("config.json"));
 
+            Console.WriteLine("Loading the saved stream data...");
+            saved_stream = new SocialStreamPointSaved();
+            if(File.Exists("saved_stream.json"))
+                saved_stream = JsonConvert.DeserializeObject<SocialStreamPointSaved>(File.ReadAllText("saved_stream.json"));
+
             Console.WriteLine("Starting the Discord bot...");
             RunBot().GetAwaiter().GetResult();
         }
 
-        static async Task RunTwitterTest(DiscordChannel c)
-        {
-            try
-            {
-                TwitterPost[] p = await TwitterApi.FetchNewPosts();
-                foreach (var post in p)
-                {
-                    await c.SendMessageAsync(embed: SocialEmbedCreator.CreateTwitterEmbed(post));
-                    //return;
-                }
-            } catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message + ex.StackTrace);
-            }
-        }
-
-        static async Task RunTest(DiscordChannel c)
-        {
-            
-        }
-
-        static void LogMessage(string topic, string message)
+        public static void LogMessage(string topic, string message)
         {
             Console.WriteLine(topic + " - " + message);
         }
@@ -62,10 +49,8 @@ namespace NewEnglandReptileBot
             discord.Ready += async e =>
             {
                 LogMessage("DiscordConnection", "Connected to Discord.");
+                await SocialTasks.RefreshSocial();
 
-                var channel = await discord.GetChannelAsync(config.notification_channel);
-                //await RunTest(channel);
-                await RunTwitterTest(channel);
             };
             discord.MessageCreated += Discord_MessageCreated;
             LogMessage("DiscordConnection", "Connecting to Discord...");

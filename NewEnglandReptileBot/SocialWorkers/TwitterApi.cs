@@ -11,8 +11,6 @@ namespace NewEnglandReptileBot.SocialWorkers
 {
     public class TwitterApi
     {
-        public static ulong latestPost = 0; //The latest post, used for refreshing
-
         public static async Task<TwitterPostContainer> SearchPosts(string query)
         {
             //First, obtain a token.
@@ -42,7 +40,7 @@ namespace NewEnglandReptileBot.SocialWorkers
             return response;
         }
 
-        public static async Task<TwitterPost[]> FetchNewPosts()
+        public static async Task<TwitterPost[]> FetchNewPosts(SocialStreamPointSaved saved)
         {
             //Create a query. First, find all users that we'd like to use
             string usersQuery = "";
@@ -57,13 +55,11 @@ namespace NewEnglandReptileBot.SocialWorkers
             }
 
             //Combine this with the last post to produce a full query
-            string finalQuery = $"?since_id={latestPost}&q={System.Web.HttpUtility.UrlEncode(usersQuery)}";
+            string finalQuery = $"?since_id={saved.twitter_latest_refresh_id}&q={System.Web.HttpUtility.UrlEncode(usersQuery)}";
 
             //Use the Twitter API
             TwitterPostContainer container = await SearchPosts(finalQuery);
-            latestPost = container.search_metadata.max_id;
-
-            //TODO: Save to disk
+            saved.twitter_latest_refresh_id = container.search_metadata.max_id;
 
             return container.statuses;
         }
