@@ -1,0 +1,50 @@
+﻿{
+  "access_token": "YOUR_ACCESS_TOKEN",
+  "social_pages": [
+    {
+      "username": "User_RomanPort",
+      "platform": 0,
+      "screen_name": "RomanPort TESTING"
+    },
+    {
+      "username": "nerdreptiles",
+      "platform": 0,
+      "screen_name": "NERD"
+    },
+    {
+      "username": "nerdDonny",
+      "platform": 0,
+      "screen_name": "Donny"
+    },
+    {
+      "username": "newenglandreptile",
+      "platform": 1,
+      "screen_name": "NERD"
+    },
+    {
+      "username": "nerd.donny",
+      "platform": 1,
+      "screen_name": "Donny"
+    },
+    {
+      "username": "NERDJeremy",
+      "platform": 0,
+      "screen_name": "Jeremy"
+    },
+    {
+      "username": "evilmorphgod_official",
+      "platform": 1,
+      "screen_name": "Kevin"
+    }
+  ],
+  "social_refresh_seconds": 30,
+  "notification_channel": 306167836705816576,
+  "instagram_auth": {
+    "username": "YOUR_IG_ACCOUNT_USERNAME",
+    "password": "YOUR_IG_ACCOUNT_PASSWORD"
+  },
+  "twitter_auth": {
+    "public_key": "YOUR_TWITTER_API_KEY_PUBLIC",
+    "private_key": "YOUR_TWITTER_API_KEY_PRIVATE"
+  }
+}
