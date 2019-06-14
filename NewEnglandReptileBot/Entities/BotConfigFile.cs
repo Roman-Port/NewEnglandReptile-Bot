@@ -10,6 +10,15 @@ namespace NewEnglandReptileBot.Entities
         public BotConfigFile_SocialAccount[] social_pages; //Social media pages to check
         public int social_refresh_seconds; //Seconds between each refresh of the social media pages. Don't rate limit us
 
+        public string command_prefix;
+
+        public ulong mod_role;
+        public ulong admin_role;
+        public ulong muted_role;
+
+        public int ban_strikes; //Number of strikes needed to ban a member.
+        public string contact; //The contact to me
+
         public ulong notification_channel; //Channel to send social links
         public BotConfigFile_ApiLoginUsernamePass instagram_auth;
         public BotConfigFile_ApiLoginOAUTH twitter_auth;
